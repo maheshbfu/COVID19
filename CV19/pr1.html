@@ -1,0 +1,720 @@
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>COVID-19 Dashboard</title>
+    <link rel="stylesheet" media="all" href="css/main.css" />
+    <script src="js/mapbox-gl.js"></script>
+    <link href="css/mapbox-gl.css" rel="stylesheet" />
+    <link rel="stylesheet" type="text/css" href="css/daterangepicker.css" />
+</head>
+  <body style="padding-bottom:45px;">
+      <header class="navbar navbar-header navbar-header-fixed" style="z-index: 100;">
+  <a href="" id="mainMenuOpen" class="burger-menu"><i data-feather="menu"></i></a>
+  <div class="navbar-brand">
+    <a class="df-logo" href="pr1.html">
+      COVID-19<span>&nbsp;BFU</span>
+</a>  </div>
+  <div id="navbarMenu" class="navbar-menu-wrapper">
+    <div class="navbar-menu-header">
+
+        <a id="mainMenuClose" href=""><i data-feather="x"></i></a>
+    </div>
+    <ul class="nav navbar-menu">
+      <li class="nav-label pd-l-20 pd-lg-l-25 d-lg-none">Main Navigation</li>
+      <li class="nav-item active">
+        <a class="nav-link" href="pr1.html">
+          <ion-icon class="d-lg-none mg-r-10" name="bar-chart-outline"></ion-icon>&nbsp;Home
+</a>      </li>
+
+      <li class="nav-item with-sub ">
+        <a href="" class="nav-link"><i data-feather="pie-chart"></i> Analytics</a>
+        <ul class="navbar-menu-sub">
+          <li class="nav-sub-item">
+            <a class="nav-sub-link" href="pr1.html">
+              <i data-feather="check-circle"></i>Confirmed Cases
+</a>          </li>
+          <li class="nav-sub-item">
+            <a class="nav-sub-link" href="pr1.html">
+              <i data-feather="clipboard"></i>Recovered Cases
+</a>          </li>
+          <li class="nav-sub-item">
+            <a class="nav-sub-link" href="pr1.html">
+              <i data-feather="cloud-drizzle"></i>Symptomatic Cases
+</a>          </li>
+          <li class="nav-sub-item">
+            <a class="nav-sub-link" href="pr1.html">
+              <i data-feather="alert-circle"></i>Critical Cases
+</a>          </li>
+          <li class="nav-sub-item">
+            <a class="nav-sub-link" href="pr1.html">
+              <i data-feather="wifi"></i>Infection Sources
+</a>          </li>
+        </ul>
+      </li>
+
+      <li class="nav-item with-sub ">
+        <a href="" class="nav-link"><i data-feather="sun"></i> Insights</a>
+        <ul class="navbar-menu-sub">
+          <li class="nav-sub-item">
+            <a class="nav-sub-link" href="pr1.html">
+              <i data-feather="activity"></i>Current Cases In Hospital&nbsp;&nbsp;<span class="badge badge-danger">New</span>
+</a>          </li>
+
+            <li class="nav-sub-item">
+              <a class="nav-sub-link" href="pr1.html">
+                <i data-feather="clipboard"></i>Discharged Cases
+</a>            </li>
+        </ul>
+      </li>
+      <li class="nav-item with-sub ">
+        <a href="" class="nav-link"><i data-feather="briefcase"></i> Cases</a>
+        <ul class="navbar-menu-sub">
+          <li class="nav-sub-item">
+            <a class="nav-sub-link" href="pr1.html">
+              <i data-feather="git-pull-request"></i>Network Graph
+</a>          </li>
+        </ul>
+      </li>
+      <li class="nav-item ">
+        <a class="nav-link" href="pr1.html">
+          <ion-icon class="d-lg-none mg-r-10" name="cash-outline"></ion-icon>&nbsp;Funding
+</a>      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="pr1.html">
+          <ion-icon class="d-lg-none mg-r-10" name="globe-outline"></ion-icon>&nbsp;Worldwide
+</a>     
+      </li>
+    </ul>
+  </div>
+</header>
+<div class="content content-fixed">
+  <div class="container pd-x-0 pd-lg-x-10 pd-xl-x-0">
+    <div class="d-sm-flex justify-content-between mg-b-20 mg-lg-b-25 mg-xl-b-30">
+      <div>
+        <nav aria-label="breadcrumb">
+  <ol class="breadcrumb breadcrumb-style1 mg-b-10">
+        <li class="breadcrumb-item">
+          <a href="/">Home</a>
+        </li> 
+  </ol>
+</nav>
+        <h4 class="mg-b-0 tx-spacing--1">Dashboard of the COVID-19 Virus Outbreak</h4>
+      </div>
+        <div class="mg-t-10 d-flex justify-content-end">
+          <button class="btn btn-sm pd-x-15 btn-white btn-uppercase" id="daterangepicker"><i data-feather="calendar" class="wd-10 mg-r-5"></i>21 January 2020 to 08 April 2020</button>
+        </div>
+    </div>
+    <div class="row row-xs">
+      <div class="col-sm-6 col-lg-3">
+        <a href="pr1.html">
+          <div class="card card-body">
+            <h6 class="tx-uppercase tx-11 tx-spacing-1 tx-color-02 tx-semibold mg-b-8">Total Cases</h6>
+            <div class="d-flex d-lg-block d-xl-flex align-items-end">
+              <h3 class="tx-normal tx-rubik mg-b-0 mg-r-5 lh-1">1,623</h3>
+              <p class="tx-11 tx-color-03 mg-b-0"><span class="tx-medium tx-danger">
+                29<i class="icon ion-md-arrow-up"></i></span> critical
+              </p>
+            </div>
+            <div class="chart-three">
+              <div id="flotChart3" class="flot-chart ht-30"></div>
+            </div>
+          </div>
+</a>      </div>
+      <div class="col-sm-6 col-lg-3 mg-t-10 mg-sm-t-0">
+        <a href="pr1.html">
+          <div class="card card-body">
+            <h6 class="tx-uppercase tx-11 tx-spacing-1 tx-color-02 tx-semibold mg-b-8">Active<span class="d-none d-md-inline"> Cases</span></h6>
+            <div class="d-flex d-lg-block d-xl-flex align-items-end">
+              <h3 class="tx-normal tx-rubik mg-b-0 mg-r-5 lh-1">1,211</h3>
+              <p class="tx-11 tx-color-03 mg-b-0"><span class="tx-medium tx-success">74.6%<i class="icon ion-md-arrow-down"></i></span> of total cases</p>
+            </div>
+            <div class="chart-three">
+              <div id="flotChart4" class="flot-chart ht-30"></div>
+            </div>
+          </div>
+</a>      </div>
+      <div class="col-sm-6 col-lg-3 mg-t-10 mg-lg-t-0">
+        <a href="pr1.html">
+          <div class="card card-body">
+            <h6 class="tx-uppercase tx-11 tx-spacing-1 tx-color-02 tx-semibold mg-b-8">Deceased</h6>
+            <div class="d-flex d-lg-block d-xl-flex align-items-end">
+              <h3 class="tx-normal tx-rubik mg-b-0 mg-r-5 lh-1">6</h3>
+              <p class="tx-11 tx-color-03 mg-b-0"><span class="tx-medium tx-success">0.4%<i class="icon ion-md-arrow-down"></i></span> of total cases</p>
+            </div>
+            <div class="chart-three">
+              <div id="flotChart5" class="flot-chart ht-30"></div>
+            </div>
+          </div>
+</a>      </div><!-- col -->
+      <div class="col-sm-6 col-lg-3 mg-t-10 mg-lg-t-0">
+        <a href="pr1.html">
+          <div class="card card-body">
+            <h6 class="tx-uppercase tx-11 tx-spacing-1 tx-color-02 tx-semibold mg-b-8">Discharged</h6>
+            <div class="d-flex d-lg-block d-xl-flex align-items-end">
+              <h3 class="tx-normal tx-rubik mg-b-0 mg-r-5 lh-1">406</h3>
+              <p class="tx-11 tx-color-03 mg-b-0"><span class="tx-medium tx-success">25.0% <i class="icon ion-md-arrow-up"></i></span> of total cases</p>
+            </div>
+            <div class="chart-three">
+              <div id="flotChart6" class="flot-chart ht-30"></div>
+            </div>
+          </div>
+</a>      </div>
+      <div class="col-lg-8 col-xl-9 mg-t-10">
+        <div class="card ht-sm-100p">
+          <div class="card-header">
+            <div class="d-sm-flex justify-content-between bd-b-0 pd-t-0 pd-b-0">
+              <div class="mg-b-0 mg-sm-b-0">
+                <h6 class="mg-b-0">Number Of Cases</h6>
+              </div>
+
+              <ul class="list-inline tx-uppercase tx-10 tx-medium tx-spacing-1 tx-color-03 mg-b-0">
+                <li class="list-inline-item tx-primary">
+
+                    <span class="d-inline-block wd-7 ht-7 rounded-circle mg-r-5" style="background-color: #F8AF69;"></span>
+                    Active<span class="d-none d-md-inline"> Cases</span>
+
+                </li>
+                <li class="list-inline-item mg-l-10">
+                  <a href="pr1.html">
+                    <span class="d-inline-block wd-7 ht-7 bg-df-2 rounded-circle mg-r-5"></span>
+                    Reported
+</a>                </li>
+                <li class="list-inline-item mg-l-10 tx-primary">
+
+                    <span class="d-inline-block wd-7 ht-7 bg-df-2 rounded-circle mg-r-5" style="background-color: #F18FB3;"></span>
+                    Critical
+
+                </li>
+                <li class="list-inline-item mg-l-10">
+                  <a href="pr1.html">
+                    <span class="d-inline-block wd-7 ht-7 rounded-circle mg-r-5" style="background-color: #65e0e0;"></span>
+                    Recovered
+</a>                </li>
+                <li class="list-inline-item mg-l-10">
+                  <a href="pr1.html">
+                    <span class="d-inline-block wd-7 ht-7 rounded-circle mg-r-5" style="background-color: #667380;"></span>
+                    Deceased
+</a>                </li>
+              </ul>
+            </div>
+            <div class="d-sm-flex justify-content-between bd-b-0 pd-t-0 pd-b-0">
+              <div class="mg-b-10 mg-sm-b-0">
+                <p class="tx-12 tx-color-03 mg-b-0">21 Jan 2020 to 08 Apr 2020</p>
+              </div>
+
+              <div class="dropdown show tx-12 tx-color-03 mg-b-0 mg-t-3">
+                <a href="#" role="button" id="dropdownMenuLink graphType" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Bar <i class="icon ion-ios-arrow-down"></i></a>
+                <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                  <a class="dropdown-item" onClick="changeGraphType('Bar')">Bar</a>
+                  <a class="dropdown-item" onClick="changeGraphType('Line')">Line</a>
+                </div>
+              </div>
+            </div>
+
+          </div>
+          <div class="card-body pd-r-0 pd-b-10 pd-t-10">
+            <div class="chart-fifteen">
+              <div id="flotChart1" class="flot-chart"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-4 col-xl-3 mg-t-10">
+        <div class="card">
+          <div class="card-header">
+            <h6 class="mg-b-0">Breakdown</h6>
+          </div>
+          <div class="card-body pd-lg-25">
+            <div class="chart-seven" style="height: 228px;"><canvas id="breakdownDonut"></canvas></div>
+          </div>
+          <div class="card-footer pd-20">
+            <div class="row">
+              <div class="col-6">
+                <p class="tx-10 tx-uppercase tx-medium tx-color-03 tx-spacing-1 mg-b-5">Active</p>
+                <div class="d-flex align-items-center">
+                  <div class="wd-10 ht-10 rounded-circle bg-primary mg-r-5"></div>
+                  <h5 class="tx-normal tx-rubik mg-b-0">1211 <small class="tx-color-04">74.6%</small></h5>
+                </div>
+              </div><!-- col -->
+              <div class="col-6">
+                <p class="tx-10 tx-uppercase tx-medium tx-color-03 tx-spacing-1 tx-nowrap mg-b-5">Recovered</p>
+                <div class="d-flex align-items-center">
+                  <div class="wd-10 ht-10 rounded-circle mg-r-5" style="background: #65e0e0;"></div>
+                  <h5 class="tx-normal tx-rubik mg-b-0">406 <small class="tx-color-04">25.0%</small></h5>
+                </div>
+              </div><!-- col -->
+            </div><!-- row -->
+
+            <div class="row mg-t-15">
+              <div class="col-6">
+                <p class="tx-10 tx-uppercase tx-medium tx-color-03 tx-spacing-1 mg-b-5">Critical</p>
+                <div class="d-flex align-items-center">
+                  <div class="wd-10 ht-10 rounded-circle bg-pink mg-r-5"></div>
+                  <h5 class="tx-normal tx-rubik mg-b-0">29 <small class="tx-color-04">1.8%</small></h5>
+                </div>
+              </div><!-- col -->
+
+              <div class="col-6">
+                <p class="tx-10 tx-uppercase tx-medium tx-color-03 tx-spacing-1 mg-b-5">Deceased</p>
+                <div class="d-flex align-items-center">
+                  <div class="wd-10 ht-10 rounded-circle mg-r-5" style="background-color: #c0c0c0;"></div>
+                  <h5 class="tx-normal tx-rubik mg-b-0">6 <small class="tx-color-04">0.4%</small></h5>
+                </div>
+              </div><!-- col -->
+            </div><!-- row -->
+
+          </div><!-- card-footer -->
+        </div><!-- card -->
+
+      </div>
+
+      <div class="col-lg-3 mg-t-10">
+        <div class="card">
+          <div class="card-header d-flex justify-content-between">
+            <h6 class="lh-5 mg-b-0">Nationality</h6>
+          </div><!-- card-header -->
+          <div class="card-body pd-y-25">
+            <div class="row">
+              <div class="col-12">
+                <div class="chart-thirteen"><canvas id="chartDonut"></canvas></div>
+              </div>
+              <div class="col-12 tx-12 mg-t-40">
+                  <div class="d-flex align-items-center">
+                    <div class="wd-10 ht-10 rounded-circle pos-relative t--1" style="background-color: #66a4fb"></div>
+                    <span class="tx-medium mg-l-10"><a class="tx-color-01" href="pr1.html">Singaporean</a></span>
+                    <span class="tx-rubik mg-l-auto"><a class="tx-color-01" href="pr1.html">980</a></span>
+                    <span class="wd-60 tx-right tx-rubik mg-l-5 tx-success"><a href="pr1.html">60.4%</a> <i class="icon ion-md-arrow-up"></i></span>
+                  </div>
+                  <div class="d-flex align-items-center">
+                    <div class="wd-10 ht-10 rounded-circle pos-relative t--1" style="background-color: #ff7c8f"></div>
+                    <span class="tx-medium mg-l-10"><a class="tx-color-01" href="pr1.html">Bangladeshi</a></span>
+                    <span class="tx-rubik mg-l-auto"><a class="tx-color-01" href="pr1.html">244</a></span>
+                    <span class="wd-60 tx-right tx-rubik mg-l-5 tx-success"><a href="pr1.html">15.0%</a> <i class="icon ion-md-arrow-up"></i></span>
+                  </div>
+                  <div class="d-flex align-items-center">
+                    <div class="wd-10 ht-10 rounded-circle pos-relative t--1" style="background-color: #a4e063"></div>
+                    <span class="tx-medium mg-l-10"><a class="tx-color-01" href="pr1.html7">Indian</a></span>
+                    <span class="tx-rubik mg-l-auto"><a class="tx-color-01" href="pr1.html7">116</a></span>
+                    <span class="wd-60 tx-right tx-rubik mg-l-5 tx-success"><a href="pr1.html7">7.1%</a> <i class="icon ion-md-arrow-up"></i></span>
+                  </div>
+                  <div class="d-flex align-items-center">
+                    <div class="wd-10 ht-10 rounded-circle pos-relative t--1" style="background-color: #b2bece"></div>
+                    <span class="tx-medium mg-l-10"><a class="tx-color-01" href="pr1.html">Malaysian</a></span>
+                    <span class="tx-rubik mg-l-auto"><a class="tx-color-01" href="pr1.html">41</a></span>
+                    <span class="wd-60 tx-right tx-rubik mg-l-5 tx-success"><a href="pr1.html">2.5%</a> <i class="icon ion-md-arrow-up"></i></span>
+                  </div>
+                  <div class="d-flex align-items-center">
+                    <div class="wd-10 ht-10 rounded-circle pos-relative t--1" style="background-color: #a5d7fd"></div>
+                    <span class="tx-medium mg-l-10"><a class="tx-color-01" href="pr1.html3">Chinese</a></span>
+                    <span class="tx-rubik mg-l-auto"><a class="tx-color-01" href="pr1.html3">40</a></span>
+                    <span class="wd-60 tx-right tx-rubik mg-l-5 tx-success"><a href="pr1.html3">2.5%</a> <i class="icon ion-md-arrow-up"></i></span>
+                  </div>
+                  <div class="d-flex align-items-center">
+                    <div class="wd-10 ht-10 rounded-circle pos-relative t--1" style="background-color: #4cebb5"></div>
+                    <span class="tx-medium mg-l-10"><a class="tx-color-01" href="pr1.html">Filipino</a></span>
+                    <span class="tx-rubik mg-l-auto"><a class="tx-color-01" href="pr1.html">31</a></span>
+                    <span class="wd-60 tx-right tx-rubik mg-l-5 tx-success"><a href="pr1.html">1.9%</a> <i class="icon ion-md-arrow-up"></i></span>
+                  </div>
+                  <div class="d-flex align-items-center">
+                    <div class="wd-10 ht-10 rounded-circle pos-relative t--1" style="background-color: #fec85e"></div>
+                    <span class="tx-medium mg-l-10"><a class="tx-color-01" href="pr1.html8">Indonesian</a></span>
+                    <span class="tx-rubik mg-l-auto"><a class="tx-color-01" href="pr1.html8">31</a></span>
+                    <span class="wd-60 tx-right tx-rubik mg-l-5 tx-success"><a href="pr1.html8">1.9%</a> <i class="icon ion-md-arrow-up"></i></span>
+                  </div>
+                  <div class="d-flex align-items-center">
+                    <div class="wd-10 ht-10 rounded-circle pos-relative t--1" style="background-color: #F2B8FF"></div>
+                    <span class="tx-medium mg-l-10"><a class="tx-color-01" href="pr1.html">Others</a></span>
+                    <span class="tx-rubik mg-l-auto"><a class="tx-color-01" href="pr1.html">140</a></span>
+                    <span class="wd-60 tx-right tx-rubik mg-l-5 tx-success"><a href="pr1.html">8.6%</a> <i class="icon ion-md-arrow-up"></i></span>
+                  </div>
+              </div>
+            </div>
+          </div><!-- card-body -->
+        </div><!-- card -->
+      </div><!-- col -->
+
+      <div class="col-lg-6 mg-t-10">
+        <div class="card ht-100p">
+          <div class="card-header d-flex justify-content-between">
+            <h6 class="lh-5 mg-b-0">Age and Gender Distribution</h6>
+          </div><!-- card-header -->
+          <div class="card-body pd-y-25">
+            <div class="row">
+              <div class="col-12">
+                <div class="chart-fifteen" style="height: 400px;">
+                  <div id="ageGenderBreakdown"></div>
+                </div>
+              </div>
+            </div>
+          </div><!-- card-body -->
+        </div><!-- card -->
+      </div>
+
+      <div class="col-lg-3 mg-t-10">
+        <div class="card">
+          <div class="card-header d-flex justify-content-between">
+            <h6 class="lh-5 mg-b-0">Infection Sources</h6>
+          </div><!-- card-header -->
+          <div class="card-body pd-y-25">
+            <div class="row">
+              <div class="col-12">
+                <div class="chart-thirteen"><canvas id="sourceDonut"></canvas></div>
+              </div>
+              <div class="col-12 tx-12 mg-t-40">
+                  <div class="d-flex align-items-center">
+                    <div class="wd-10 ht-10 rounded-circle pos-relative t--1" style="background-color: #66a4fb"></div>
+                    <span class="tx-medium mg-l-10">United Kingdom</span>
+                    <span class="tx-rubik mg-l-auto">176</span>
+                    <span class="wd-60 tx-right tx-rubik mg-l-5 tx-danger">10.8% <i class="icon ion-md-arrow-up"></i></span>
+                  </div>
+                  <div class="d-flex align-items-center">
+                    <div class="wd-10 ht-10 rounded-circle pos-relative t--1" style="background-color: #ff7c8f"></div>
+                    <span class="tx-medium mg-l-10">United States</span>
+                    <span class="tx-rubik mg-l-auto">62</span>
+                    <span class="wd-60 tx-right tx-rubik mg-l-5 tx-danger">3.8% <i class="icon ion-md-arrow-up"></i></span>
+                  </div>
+                  <div class="d-flex align-items-center">
+                    <div class="wd-10 ht-10 rounded-circle pos-relative t--1" style="background-color: #a4e063"></div>
+                    <span class="tx-medium mg-l-10">Indonesia</span>
+                    <span class="tx-rubik mg-l-auto">27</span>
+                    <span class="wd-60 tx-right tx-rubik mg-l-5 tx-danger">1.7% <i class="icon ion-md-arrow-up"></i></span>
+                  </div>
+                  <div class="d-flex align-items-center">
+                    <div class="wd-10 ht-10 rounded-circle pos-relative t--1" style="background-color: #b2bece"></div>
+                    <span class="tx-medium mg-l-10">China</span>
+                    <span class="tx-rubik mg-l-auto">24</span>
+                    <span class="wd-60 tx-right tx-rubik mg-l-5 tx-danger">1.5% <i class="icon ion-md-arrow-up"></i></span>
+                  </div>
+                  <div class="d-flex align-items-center">
+                    <div class="wd-10 ht-10 rounded-circle pos-relative t--1" style="background-color: #a5d7fd"></div>
+                    <span class="tx-medium mg-l-10">Malaysia</span>
+                    <span class="tx-rubik mg-l-auto">22</span>
+                    <span class="wd-60 tx-right tx-rubik mg-l-5 tx-danger">1.4% <i class="icon ion-md-arrow-up"></i></span>
+                  </div>
+                  <div class="d-flex align-items-center">
+                    <div class="wd-10 ht-10 rounded-circle pos-relative t--1" style="background-color: #4cebb5"></div>
+                    <span class="tx-medium mg-l-10">Philippines</span>
+                    <span class="tx-rubik mg-l-auto">17</span>
+                    <span class="wd-60 tx-right tx-rubik mg-l-5 tx-danger">1.0% <i class="icon ion-md-arrow-up"></i></span>
+                  </div>
+                  <div class="d-flex align-items-center">
+                    <div class="wd-10 ht-10 rounded-circle pos-relative t--1" style="background-color: #fec85e"></div>
+                    <span class="tx-medium mg-l-10">France</span>
+                    <span class="tx-rubik mg-l-auto">11</span>
+                    <span class="wd-60 tx-right tx-rubik mg-l-5 tx-danger">0.7% <i class="icon ion-md-arrow-up"></i></span>
+                  </div>
+                  <div class="d-flex align-items-center">
+                    <div class="wd-10 ht-10 rounded-circle pos-relative t--1" style="background-color: #F2B8FF"></div>
+                    <span class="tx-medium mg-l-10">Others</span>
+                    <span class="tx-rubik mg-l-auto">80</span>
+                    <span class="wd-60 tx-right tx-rubik mg-l-5 tx-danger">4.9% <i class="icon ion-md-arrow-up"></i></span>
+                  </div>
+              </div>
+            </div>
+          </div><!-- card-body -->
+        </div><!-- card -->
+      </div><!-- col -->
+
+
+      <!-- gender over time -->
+      <div class="col-lg-6 mg-t-10">
+        <div class="card">
+          <div class="card-header pd-b-0 bd-b-0 pd-t-20 pd-lg-t-25 pd-l-20 pd-lg-l-25">
+            <h6 class="mg-b-5">Gender over Time</h6>
+            <p class="tx-12 tx-color-03 mg-b-0">Showing Male Cases vs Female Over Time.
+          </div><!-- card-header -->
+          <div class="card-body pd-sm-20 pd-lg-25">
+            <div class="row row-sm">
+              <div class="col">
+                <div class="media">
+                  <div class="wd-40 ht-40 bg-primary tx-white d-flex align-items-center justify-content-center rounded op-5">
+                    <ion-icon name="man-outline" class="wd-20 ht-20"></ion-icon>
+                  </div>
+                  <div class="media-body mg-l-10">
+                    <h4 class="tx-normal tx-rubik tx-spacing--2 lh-1 mg-b-5">
+                      1,062
+                      <small class="tx-color-04 tx-14">65.4%</small>
+                    </h4>
+                    <p class="tx-10 tx-uppercase tx-medium tx-color-03 tx-spacing-1 tx-nowrap mg-b-0">Male</p>
+                  </div><!-- media-body -->
+                </div><!-- media -->
+              </div><!-- col -->
+              <div class="col">
+                <div class="media">
+                  <div class="wd-40 ht-40 bg-pink tx-white d-flex align-items-center justify-content-center rounded op-5">
+                    <ion-icon name="woman-outline" class="wd-20 ht-20"></ion-icon>
+                  </div>
+                  <div class="media-body mg-l-10">
+                    <h4 class="tx-normal tx-rubik tx-spacing--2 lh-1 mg-b-5">
+                      561
+                      <small class="tx-color-04 tx-14">34.6%</small>  
+                    </h4>
+                    <p class="tx-10 tx-uppercase tx-medium tx-color-03 tx-spacing-1 tx-nowrap mg-b-0">Female</p>
+                  </div><!-- media-body -->
+                </div><!-- media -->
+              </div><!-- col -->
+
+            </div><!-- row -->
+
+            <div class="chart-eight">
+              <div id="age_flot" class="flot-chart"></div>
+            </div>
+          </div><!-- card-body -->
+        </div><!-- card -->
+      </div><!-- col -->
+
+      <!-- infection source over time -->
+      <div class="col-lg-6 mg-t-10">
+        <a href="pr1.html">
+          <div class="card">
+            <div class="card-header pd-b-0 bd-b-0 pd-t-20 pd-lg-t-25 pd-l-20 pd-lg-l-25">
+              <h6 class="mg-b-5">Infection Source over Time</h6>
+              <p class="tx-12 tx-color-03 mg-b-0">Showing Number of Imported Cases vs Local Transmission Over Time.
+            </div><!-- card-header -->
+            <div class="card-body pd-sm-20 pd-lg-25">
+              <div class="row row-sm">
+                <div class="col">
+                  <div class="media">
+                    <div class="wd-40 ht-40 bg-primary tx-white d-flex align-items-center justify-content-center rounded op-5">
+                      <i data-feather="wifi" class="wd-20 ht-20"></i>
+                    </div>
+                    <div class="media-body mg-l-10">
+                      <h4 class="tx-normal tx-rubik tx-spacing--2 lh-1 mg-b-5">
+                        1,065
+                        <small class="tx-color-04 tx-14">65.6%</small>  
+                      </h4>
+                      <p class="tx-10 tx-uppercase tx-medium tx-color-03 tx-spacing-1 tx-nowrap mg-b-0">Local <span class="d-none d-xl-inline">Transmission</span></p>
+                    </div><!-- media-body -->
+                  </div><!-- media -->
+                </div><!-- col -->
+                <div class="col">
+                  <div class="media">
+                    <div class="wd-40 ht-40 bg-pink tx-white d-flex align-items-center justify-content-center rounded op-5">
+                      <i data-feather="send" class="wd-20 ht-20"></i>
+                    </div>
+                    <div class="media-body mg-l-10">
+                      <h4 class="tx-normal tx-rubik tx-spacing--2 lh-1 mg-b-5">
+                        558
+                        <small class="tx-color-04 tx-14">34.4%</small>  
+                        
+                      </h4>
+                      <p class="tx-10 tx-uppercase tx-medium tx-color-03 tx-spacing-1 tx-nowrap mg-b-0">Imported <span class="d-none d-xl-inline">Case</span></p>
+                    </div><!-- media-body -->
+                  </div><!-- media -->
+                </div><!-- col -->
+
+              </div><!-- row -->
+
+              <div class="chart-eight">
+                <div id="infection_source_flot" class="flot-chart"></div>
+              </div>
+            </div><!-- card-body -->
+          </div><!-- card -->
+</a>      </div><!-- col -->
+
+
+      <!-- clusters -->
+      <div class="col-xl-4 mg-t-10 order-xl-1">
+        <div class="card ht-lg-100p">
+          <div class="card-header d-flex align-items-center justify-content-between">
+            <h6 class="mg-b-0">Clusters</h6>
+            <div class="tx-13 d-flex align-items-center">
+            </div>
+          </div><!-- card-header -->
+          <div class="card-body pd-0">
+            <div class="pd-y-25 pd-x-20">
+              <div id="vmap" class="ht-200"></div>
+            </div>
+            <div class="table-responsive">
+              <table class="table table-borderless table-dashboard table-dashboard-one">
+                <thead>
+                  <tr>
+                    <th class="wd-40">Clusters</th>
+                    <th class="wd-25 text-right">Infection</th>
+
+                  </tr>
+                </thead>
+                <tbody>
+                      <tr>
+                        <td class="tx-medium">Yong Thai Hang (Lavender)</td>
+
+                        <td class="text-right">9</td>
+                      </tr>
+                      <tr>
+                        <td class="tx-medium">Grand Hyatt Hotel</td>
+
+                        <td class="text-right">3</td>
+                      </tr>
+                      <tr>
+                        <td class="tx-medium">The Life Church and Missions Singapore</td>
+
+                        <td class="text-right">10</td>
+                      </tr>
+                      <tr>
+                        <td class="tx-medium">boulder+ Gym (12 Kallang Avenue)</td>
+
+                        <td class="text-right">3</td>
+                      </tr>
+                      <tr>
+                        <td class="tx-medium">Seletar Aerospace Heights</td>
+
+                        <td class="text-right">5</td>
+                      </tr>
+                      <tr>
+                        <td class="tx-medium">Grace Assembly of God</td>
+
+                        <td class="text-right">23</td>
+                      </tr>
+                      <tr>
+                        <td class="tx-medium">Wizlearn Technologies Pte Ltd</td>
+
+                        <td class="text-right">14</td>
+                      </tr>
+                      <tr>
+                        <td class="tx-medium">Private dinner function at SAFRA Jurong</td>
+
+                        <td class="text-right">47</td>
+                      </tr>
+                      <tr>
+                        <td class="tx-medium">Church of Singapore (Bukit Timah) </td>
+
+                        <td class="text-right">4</td>
+                      </tr>
+                      <tr>
+                        <td class="tx-medium">Mass Religious Gathering In Malaysia</td>
+
+                        <td class="text-right">5</td>
+                      </tr>
+                </tbody>
+              </table>
+            </div><!-- table-responsive -->
+          </div><!-- card-body -->
+        </div><!-- card -->
+      </div><!-- col -->
+
+      <!-- table and help -->
+      <div class="col-lg-12 col-xl-8 mg-t-10">
+        <div class="card mg-b-10">
+          <div class="card-header pd-t-20 d-sm-flex align-items-start justify-content-between bd-b-0 pd-b-0">
+            <div>
+              <h6 class="mg-b-5">Cases</h6>
+              <p class="tx-13 tx-color-03 mg-b-0">Reported cases in Singapore</p>
+            </div>
+          </div><!-- card-header -->
+          <div class="card-body pd-y-30">
+            <div class="d-sm-flex">
+              <div class="media">
+                <div class="wd-40 wd-md-50 ht-40 ht-md-50 bg-teal tx-white mg-r-10 mg-md-r-10 d-flex align-items-center justify-content-center rounded op-6">
+                  <i data-feather="clock"></i>
+                </div>
+                <div class="media-body">
+                  <h6 class="tx-sans tx-uppercase tx-10 tx-spacing-1 tx-color-03 tx-semibold tx-nowrap mg-b-5 mg-md-b-8">Average Age</h6>
+                  <h4 class="tx-20 tx-sm-18 tx-md-24 tx-normal tx-rubik mg-b-0">40</h4>
+                </div>
+              </div>
+              <div class="media mg-t-20 mg-sm-t-0 mg-sm-l-15 mg-md-l-40">
+                <div class="wd-40 wd-md-50 ht-40 ht-md-50 bg-pink tx-white mg-r-10 mg-md-r-10 d-flex align-items-center justify-content-center rounded op-5">
+                  <i data-feather="send"></i>
+                </div>
+                <div class="media-body">
+                  <h6 class="tx-sans tx-uppercase tx-10 tx-spacing-1 tx-color-03 tx-semibold mg-b-5 mg-md-b-8">Imported Cases</h6>
+                  <h4 class="tx-20 tx-sm-18 tx-md-24 tx-normal tx-rubik mg-b-0">558</h4>
+                </div>
+              </div>
+              <div class="media mg-t-20 mg-sm-t-0 mg-sm-l-15 mg-md-l-40">
+                <div class="wd-40 wd-md-50 ht-40 ht-md-50 bg-primary tx-white mg-r-10 mg-md-r-10 d-flex align-items-center justify-content-center rounded op-4">
+                  <i data-feather="wifi"></i>
+                </div>
+                <div class="media-body">
+                  <h6 class="tx-sans tx-uppercase tx-10 tx-spacing-1 tx-color-03 tx-semibold mg-b-5 mg-md-b-8">Local Transmissions</h6>
+                  <h4 class="tx-20 tx-sm-18 tx-md-24 tx-normal tx-rubik mg-b-0">1,065</small></h4>
+                </div>
+              </div>
+            </div>
+          </div><!-- card-body -->
+          <div class="table-responsive">
+            <table class="table table-dashboard mg-b-0">
+              <thead>
+                <tr>
+                  <th>Case</th>
+                  <th class="text-right">Confirmed Date</th>
+                  <th class="text-right">Age</th>
+                  <th class="text-right">Gender</th>
+                  <th class="text-right">Symptomatic At</th>
+                </tr>
+              </thead>
+              <tbody>
+                  <tr>
+                    <td class="tx-color-03 tx-normal"><a href="pr1.html">1623</a></td>
+                    <td class="tx-medium text-right">08 April 2020</td>
+                    <td class="text-right">
+                        32
+                    </td>
+                    <td class="text-right tx-primary">Male</td>
+                    <td class="tx-medium text-right">Unknown</td>
+                  </tr>
+                  <tr>
+                    <td class="tx-color-03 tx-normal"><a href="pr1.html">1622</a></td>
+                    <td class="tx-medium text-right">08 April 2020</td>
+                    <td class="text-right">
+                        68
+                    </td>
+                    <td class="text-right tx-pink">Female</td>
+                    <td class="tx-medium text-right">Unknown</td>
+                  </tr>
+                  <tr>
+                    <td class="tx-color-03 tx-normal"><a href="pr1.html">1621</a></td>
+                    <td class="tx-medium text-right">08 April 2020</td>
+                    <td class="text-right">
+                        30
+                    </td>
+                    <td class="text-right tx-primary">Male</td>
+                    <td class="tx-medium text-right">Unknown</td>
+                  </tr>
+                  <tr>
+                    <td class="tx-color-03 tx-normal"><a href="pr1.html">1620</a></td>
+                    <td class="tx-medium text-right">08 April 2020</td>
+                    <td class="text-right">
+                        32
+                    </td>
+                    <td class="text-right tx-primary">Male</td>
+                    <td class="tx-medium text-right">Unknown</td>
+                  </tr>
+                  <tr>
+                    <td class="tx-color-03 tx-normal"><a href="pr1.html">1619</a></td>
+                    <td class="tx-medium text-right">08 April 2020</td>
+                    <td class="text-right">
+                        38
+                    </td>
+                    <td class="text-right tx-primary">Male</td>
+                    <td class="tx-medium text-right">Unknown</td>
+                  </tr>
+              </tbody>
+            </table>
+          </div><!-- table-responsive -->
+          <div class="card-footer text-center tx-13">
+            <a class="link-03" href="pr1.html">
+              View More Cases <i class="icon ion-md-arrow-down mg-l-5"></i>
+</a>          </div><!-- card-footer -->
+        </div><!-- card -->
+      </div><!-- col -->
+
+    </div><!-- row -->
+  </div><!-- container -->
+
+    <!-- Main container end -->
+
+    <div style="clear: both;"></div>
+
+    <!-- footer start -->
+    <footer class="footer" style="display:block; position: fixed; bottom: 0; width: 100%; height: 45px; z-index: 100">
+  <div class="d-flex justify-content-between" style="margin-top: 0px !important;">
+    <div>
+    </div>
+    <div>
+    </div>
+  </div>
+</footer>
+</body>
+</html>
